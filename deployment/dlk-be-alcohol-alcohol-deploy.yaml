@@ -16,11 +16,11 @@ spec:
       labels:
         app: alcohol-service
     spec:
+      imagePullSecrets:
+        - name: dlk-be-alcohol-harbor-secrets
       containers:
         - envFrom:
             - secretRef:
-                name: 
-
+                name: dlk-be-alcohol-secrets
           image: 192.168.3.81/dlink/alcohol-service:v2.0
           name: spring-container
-

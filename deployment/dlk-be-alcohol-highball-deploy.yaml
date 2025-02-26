@@ -5,7 +5,7 @@ metadata:
   labels:
     app: highball-service
   name: dlk-be-alcohol-highball-deploy
-  namespace: dlk-be-auth
+  namespace: dlk-be-alcohol
 spec:
   replicas: 1
   selector:
@@ -16,9 +16,12 @@ spec:
       labels:
         app: highball-service
     spec:
+      imagePullSecrets:
+        - name: dlk-be-alcohol-harbor-secrets
       containers:
-        - env:
-          - {}
+        - envFrom:
+            - secretRef:
+                name: dlk-be-alcohol-secrets
           image: 192.168.3.81/dlink/highball-service:v2.0
           name: spring-container
 
