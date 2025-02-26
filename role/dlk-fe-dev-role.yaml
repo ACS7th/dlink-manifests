@@ -4,10 +4,10 @@ metadata:
   namespace: dlk-fe
   name: dev-role
 rules:
-- apiGroups: [""]  # 기본 API 그룹 (pods, services 등)
+- apiGroups: [""]
   resources: ["pods", "services"]
   verbs: ["get", "list", "watch", "create", "update", "delete"]
-- apiGroups: ["apps"]  # Deployment는 "apps" API 그룹에 속함
+- apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["get", "list", "watch", "create", "update", "delete"]
 ---
