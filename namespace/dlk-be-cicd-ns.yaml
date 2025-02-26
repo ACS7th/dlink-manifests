@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dlk-cicd
+  labels:
+    tier: devops
+    env: prod

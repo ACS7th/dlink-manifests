@@ -1,0 +1,23 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-gateway
+  name: dlk-be-alcohol-api-gateway-deploy
+  namespace: dlk-be-alcohol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - env:
+            - {}
+          image: 192.168.3.81/dlink/api-gateway:v2.0
+          name: alcohol-container
