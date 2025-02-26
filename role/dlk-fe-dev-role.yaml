@@ -1,0 +1,28 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: dlk-fe
+  name: dev-role
+rules:
+- apiGroups: [""]  # 기본 API 그룹 (pods, services 등)
+  resources: ["pods", "services"]
+  verbs: ["get", "list", "watch", "create", "update", "delete"]
+- apiGroups: ["apps"]  # Deployment는 "apps" API 그룹에 속함
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: dlk-fe
+  name: dev-rolebinding
+subjects:
+- kind: User
+  name: dev
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: dev-role
+  apiGroup: rbac.authorization.k8s.io
+
+
