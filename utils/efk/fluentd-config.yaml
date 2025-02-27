@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: dlk-monitoring
+data:
+  fluent.conf: |
+    # -------------------------------------------------
+    # ✅ Kubernetes 로그 수집 (네임스페이스 추출)
+    # 파일명 예시: pod_namespace_container-<hash>.log
+    # -------------------------------------------------
+    <source>
+      @type tail
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      # 파일명에서 pod, namespace, container, hash를 추출
+      tag kubernetes
+      tag_regexp /^(?<pod>[^_]+)_(?<namespace>[^_]+)_(?<container>[^-]+)-[a-z0-9]+\.log$/
+      read_from_head true
+      rotate_wait 10s
+      skip_refresh_on_startup true
+      <parse>
+        @type multiline
+        # 첫 줄은 ISO8601 형식의 날짜로 시작한다고 가정
+        format_firstline /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+(?:\+\d{2}(?::\d{2})?)?/
+        # 예시: "2025-02-26T09:24:00.123456 stdout F some log message"
+        format1 /^(?<time>[^\s]+)\s+(?<stream>\S+)\s+(?<log>.+)$/
+      </parse>
+    </source>
+
+    # -------------------------------------------------
+    # ✅ Kubernetes 메타데이터 추가
+    # -------------------------------------------------
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+    </filter>
+
+    # -------------------------------------------------
+    # ✅ 로그 출력을 2개로 분기 (조건에 따라)
+    # - 네임스페이스가 "kube-system" 또는 "monitoring"이면 시스템 로그로,
+    #   그 외는 애플리케이션 로그로 전송합니다.
+    # -------------------------------------------------
+    <match kubernetes.**>
+      @type copy
+
+      <store>
+        @type elasticsearch
+        host 192.168.3.82
+        port 9200
+        logstash_format true
+        logstash_prefix system-logs
+        logstash_dateformat %Y.%m.%d
+        include_tag_key true
+        tag_key @log_name
+        <buffer>
+          @type memory
+          chunk_limit_size 2MB
+          queue_limit_length 8
+          flush_interval 10s
+        </buffer>
+        # if 조건: namespace가 kube-system 또는 monitoring인 경우
+        if ${record["namespace"] =~ /^(kube-system|monitoring)$/ }
+      </store>
+
+      <store>
+        @type elasticsearch
+        host 192.168.3.82
+        port 9200
+        logstash_format true
+        logstash_prefix application-logs
+        logstash_dateformat %Y.%m.%d
+        include_tag_key true
+        tag_key @log_name
+        <buffer>
+          @type memory
+          chunk_limit_size 2MB
+          queue_limit_length 8
+          flush_interval 10s
+        </buffer>
+        # if 조건: namespace가 kube-system 또는 monitoring이 아닌 경우
+        if ${record["namespace"] !~ /^(kube-system|monitoring)$/ }
+      </store>
+    </match>
+

@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haproxy-config
+  namespace: dlk-redis
+data:
+  haproxy.cfg: |
+    global
+        log stdout local0
+        maxconn 256
+
+    defaults
+        log global
+        option tcplog
+        timeout connect 5000ms
+        timeout client 50000ms
+        timeout server 50000ms
+
+    frontend redis_write
+        bind *:6379
+        default_backend redis_master
+
+    backend redis_master
+        mode tcp
+        option tcp-check
+        server redis-master redis-master.dlk-redis.svc.cluster.local:6379 check
+
+    frontend redis_read
+        bind *:6380
+        default_backend redis_slaves
+
+    backend redis_slaves
+        mode tcp
+        balance roundrobin
+        option tcp-check
+        server redis-slave-0 redis-slave-0.redis-slave.dlk-redis.svc.cluster.local:6379 check
+        server redis-slave-1 redis-slave-1.redis-slave.dlk-redis.svc.cluster.local:6379 check
+
