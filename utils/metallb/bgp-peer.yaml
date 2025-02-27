@@ -1,0 +1,10 @@
+apiVersion: metallb.io/v1beta1
+kind: BGPPeer
+metadata:
+  name: bgp-peer
+  namespace: metallb-system
+spec:
+  myASN: 64512    # MetalLB의 ASN
+  peerASN: 64513  # FRR의 ASN
+  peerAddress: 192.168.0.1
+
