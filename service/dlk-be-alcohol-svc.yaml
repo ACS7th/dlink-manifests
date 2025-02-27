@@ -4,10 +4,11 @@ metadata:
   name: dlk-be-alcohol-svc
   namespace: dlk-be-alcohol
 spec:
-  type: ClusterIP
   selector:
     app: alcohol-service
   ports:
-    - port: 9991
+    - protocol: TCP
+      port: 8080
       targetPort: 8080
-      protocol: TCP
+  type: ClusterIP
+

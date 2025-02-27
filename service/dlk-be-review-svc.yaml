@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dlk-be-alcohol-svc
+  name: dlk-be-review-svc
   namespace: dlk-be-alcohol
 spec:
-  type: ClusterIP
   selector:
-    app: alcohol-service
+    app: review-service
   ports:
-    - port: 9991
+    - protocol: TCP
+      port: 8081
       targetPort: 8080
-      protocol: TCP
+  type: ClusterIP
+

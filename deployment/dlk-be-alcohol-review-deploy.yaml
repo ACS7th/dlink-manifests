@@ -16,8 +16,11 @@ spec:
       labels:
         app: review-service
     spec:
+      imagePullSecrets:
+        - name: dlk-be-alcohol-harbor-secrets
       containers:
-        - env:
-            - SPRING_DATASOURCE_URI: {} 
+        - envFrom:
+            - secretRef:
+                name: dlk-be-alcohol-secrets
           image: 192.168.3.81/dlink/review-service:v2.0
           name: spring-container 

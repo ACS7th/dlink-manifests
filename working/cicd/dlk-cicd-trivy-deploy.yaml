@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlk-cicd-trivy-deploy
+  namespace: dlk-cicd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trivy
+  template:
+    metadata:
+      labels:
+        app: trivy
+    spec:
+      containers:
+        - name: trivy-container
+          image: aquasec/trivy:latest
+          args:
+            - server
+          ports:
+            - containerPort: 8080

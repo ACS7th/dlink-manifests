@@ -4,8 +4,8 @@ kind: Deployment
 metadata:
   labels:
     app: api-gateway
-  name: dlk-be-alcohol-api-gateway-deploy
-  namespace: dlk-be-alcohol
+  name: dlk-gateway-gateway-deploy
+  namespace: dlk-gateway
 spec:
   replicas: 1
   selector:
@@ -17,7 +17,8 @@ spec:
         app: api-gateway
     spec:
       containers:
-        - env:
-            - {}
+        - envFrom:
+            - secretRef:
+                name: dlk-gateway-secrets
           image: 192.168.3.81/dlink/api-gateway:v2.0
           name: alcohol-container

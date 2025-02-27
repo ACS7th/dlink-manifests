@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: nextjs
-  name: dlk-fe-svc
+  name: dlk-fe-next-svc
   namespace: dlk-fe-next
 spec:
   type: LoadBalancer 
@@ -13,4 +13,3 @@ spec:
       targetPort: 3000
   selector:
     app: nextjs
-

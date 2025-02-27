@@ -16,8 +16,11 @@ spec:
       labels:
         app: pairing-service
     spec:
+      imagePullSecrets:
+        - name: dlk-be-pairing-harbor-secrets
       containers:
-        - env:
-            - {}
+        - envFrom:
+            - secretRef:
+                name: dlk-be-pairing-secrets
           image: 192.168.3.81/dlink/pairing-service:v2.0
           name: spring-container
