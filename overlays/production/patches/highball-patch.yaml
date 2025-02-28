@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: dlk-be-alcohol-highball-deploy
 spec:
-  replicas: 2
+  replicas: 1
   template:
     spec:
       containers:
