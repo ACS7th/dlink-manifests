@@ -1,9 +1,4 @@
 resources:
-  - namespace/dlk-be-alcohol-ns.yaml
-  - namespace/dlk-be-auth-ns.yaml
-  - namespace/dlk-fe-next-ns.yaml
-  - namespace/dlk-be-pairing-ns.yaml
-  - namespace/dlk-gateway.yaml
   - deployment/dlk-be-alcohol-alcohol-deploy.yaml
   - deployment/dlk-be-pairing-pairing-deploy.yaml
   - deployment/dlk-be-alcohol-highball-deploy.yaml
