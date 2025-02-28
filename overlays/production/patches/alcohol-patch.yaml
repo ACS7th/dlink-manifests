@@ -8,5 +8,5 @@ spec:
     spec:
       containers:
         - name: spring-container
-          image: 192.168.3.81/dlink/alcohol-service:latest
+          image: 192.168.3.81/dlink/alcohol-service:v1.0
 
