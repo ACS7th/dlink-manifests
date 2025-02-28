@@ -20,5 +20,5 @@ spec:
         - envFrom:
             - secretRef:
                 name: dlk-gateway-secrets
-          image: 192.168.3.81/dlink/api-gateway:v2.0
+          image: 192.168.3.81/dlink/api-gateway:v2.0.1
           name: alcohol-container
