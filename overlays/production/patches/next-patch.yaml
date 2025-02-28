@@ -3,10 +3,10 @@ kind: Deployment
 metadata:
   name: dlk-fe-next-deploy
 spec:
-  replicas: 2
+  replicas: 1
   template:
     spec:
       containers:
         - name: nextjs-container
-          image: 192.168.3.81/dlink/next-app:v2.0
+          image: 192.168.3.81/dlink/next-app:v2.0.0
 
