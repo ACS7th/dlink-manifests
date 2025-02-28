@@ -27,6 +27,7 @@ spec:
                 secretKeyRef:
                   name: dlk-be-alcohol-secrets
                   key: ES_DATASOURCE_URI
+                  optional: false
             - name: JWT_SECRET_KEY
               valueFrom:
                 secretKeyRef:
@@ -62,6 +63,7 @@ spec:
                 secretKeyRef:
                   name: dlk-be-alcohol-secrets
                   key: SPRING_DATA_MONGODB_URI
+                  optional: false
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
