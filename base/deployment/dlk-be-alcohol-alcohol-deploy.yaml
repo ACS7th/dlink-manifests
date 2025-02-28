@@ -24,6 +24,6 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: dlk-be-alcohol-secrets
-                value: ES_DATASOURCE_URI
+                key: ES_DATASOURCE_URI
           image: 192.168.3.81/dlink/alcohol-service:v2.0.0
           name: spring-container
