@@ -23,7 +23,13 @@ spec:
           - name: ES_DATASOURCE_URI
             valueFrom:
               secretKeyRef:
-                name: dlk-be-alcohol-secrets
+              - name: dlk-be-alcohol-secrets
+                kdy: SPRING_DATA_MONGODB_URI
+              - name: dlk-be-alcohol-secrets
                 key: ES_DATASOURCE_URI
+              - name: dlk-be-alcohol-secrets
+                kdy: SPRING_URI
+              - name: dlk-be-alcohol-secrets
+                kdy: SPRING_PROFILES_ACTIVE
           image: 192.168.3.81/dlink/alcohol-service:v2.0.0
           name: spring-container
