@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlk-gateway-gateway-deploy
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: alcohol-container
+          image: 192.168.3.81/dlink/api-gateway:latest
+

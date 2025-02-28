@@ -1,0 +1,46 @@
+resources:
+  - ../../base
+
+patches:
+  - target:
+      kind: Deployment
+      name: dlk-be-alcohol-alcohol-deploy
+      namespace: dlk-be-alcohol  # ✅ 특정 네임스페이스 지정
+    path: patches/alcohol-patch.yaml
+
+  - target:
+      kind: Deployment
+      name: dlk-be-alcohol-highball-deploy
+      namespace: dlk-be-alcohol  # ✅ 특정 네임스페이스 지정
+    path: patches/highball-patch.yaml
+
+  - target:
+      kind: Deployment
+      name: dlk-be-alcohol-review-deploy
+      namespace: dlk-be-alcohol  # ✅ 특정 네임스페이스 지정
+    path: patches/review-patch.yaml
+
+  - target:
+      kind: Deployment
+      name: dlk-be-auth-auth-deploy
+      namespace: dlk-be-auth  # ✅ 특정 네임스페이스 지정
+    path: patches/auth-patch.yaml
+
+  - target:
+      kind: Deployment
+      name: dlk-be-pairing-pairing-deploy
+      namespace: dlk-be-pairing  # ✅ 특정 네임스페이스 지정
+    path: patches/pairing-patch.yaml
+
+  - target:
+      kind: Deployment
+      name: dlk-fe-next-deploy
+      namespace: dlk-fe-next  # ✅ 특정 네임스페이스 지정
+    path: patches/next-patch.yaml
+
+  - target:
+      kind: Deployment
+      name: dlk-gateway-gateway-deploy
+      namespace: dlk-gateway  # ✅ 특정 네임스페이스 지정
+    path: patches/gateway-patch.yaml
+

@@ -1,0 +1,20 @@
+resources:
+  - namespace/dlk-be-alcohol-ns.yaml
+  - namespace/dlk-be-auth-ns.yaml
+  - namespace/dlk-fe-next-ns.yaml
+  - namespace/dlk-be-pairing-ns.yaml
+  - namespace/dlk-gateway.yaml
+  - deployment/dlk-be-alcohol-alcohol-deploy.yaml
+  - deployment/dlk-be-pairing-pairing-deploy.yaml
+  - deployment/dlk-be-alcohol-highball-deploy.yaml
+  - deployment/dlk-fe-next-deploy.yaml
+  - deployment/dlk-be-alcohol-review-deploy.yaml
+  - deployment/dlk-gateway-gateway-deploy.yaml
+  - deployment/dlk-be-auth-auth-deploy.yaml
+  - service/dlk-be-alcohol-alcohol-svc.yml
+  - service/dlk-be-pairing-svc.yaml
+  - service/dlk-be-review-svc.yaml
+  - service/dlk-be-auth-svc.yaml
+  - service/dlk-fe-svc.yaml
+  - service/dlk-be-highball-svc.yaml
+  - service/dlk-gateway-svc.yaml
