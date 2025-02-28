@@ -44,28 +44,3 @@ patches:
       namespace: dlk-gateway  # ✅ 특정 네임스페이스 지정
     path: patches/gateway-patch.yaml
 
-
-secretGenerator:
-  - name: dlk-be-alcohol-secrets
-    namespace: dlk-be-alcohol
-    envs:
-      - .env
-  - name: dlk-be-auth-secrets
-    namespace: dlk-be-auth
-    envs:
-      - .env
-  - name: dlk-be-pairing-secrets
-    namespace: dlk-be-pairing
-    envs:
-      - .env
-  - name: dlk-fe-next-secrets
-    namespace: dlk-fe-next
-    envs:
-      - .env
-  - name: dlk-gateway-secrets
-    namespace: dlk-gateway
-    envs:
-      - .env
-generatorOptions:
-  disableNameSuffixHash: true
-
