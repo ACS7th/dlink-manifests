@@ -8,9 +8,5 @@ spec:
     spec:
       containers:
         - name: nextjs-container
-<<<<<<< HEAD
           image: 192.168.3.81/dlink/next-app:v2.0.1
-=======
-          image: 192.168.3.81/dlink/next-app:v2.0.5
->>>>>>> 956c9fa7c41048855a4bae53f0299f6dd8d12efe
 
