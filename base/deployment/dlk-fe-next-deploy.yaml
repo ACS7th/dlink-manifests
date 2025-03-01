@@ -27,5 +27,21 @@ spec:
                 name: dlk-fe-next-secrets
             - configMapRef:
                 name: dlk-fe-next-config
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            failureThreshold: 3
+            timeoutSeconds: 5
       restartPolicy: Always
 
