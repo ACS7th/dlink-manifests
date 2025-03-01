@@ -8,6 +8,6 @@ spec:
   selector:
     app: alcohol-service
   ports:
-    - port: 8081
+    - port: 8080
       targetPort: 8080
       protocol: TCP
