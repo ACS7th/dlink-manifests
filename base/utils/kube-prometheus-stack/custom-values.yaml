@@ -1,0 +1,55 @@
+crds:
+  create: false
+
+grafana:
+  service:
+    type: LoadBalancer
+    port: 80
+  persistence:
+    enabled: true
+    type: sts
+    storageClassName: openebs-hostpath
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - charlie-k8s-worker1
+prometheus:
+  prometheusSpec:
+    remoteWriteDashboards: false
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - charlie-k8s-worker1
+    serverSideApply: true
+    retention: 12h
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: openebs-hostpath
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 25Gi
+    resources:
+      requests:
+        memory: 3Gi
+        cpu: 500m
+      limits:
+        memory: 6Gi
+        cpu: 2

@@ -1,2 +1,5 @@
 secret/
+.env
+overlays/production/.env
 
+overlays/production/secrets/

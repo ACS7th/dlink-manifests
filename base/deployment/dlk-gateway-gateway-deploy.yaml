@@ -1,0 +1,24 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-gateway
+  name: dlk-gateway-gateway-deploy
+  namespace: dlk-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - envFrom:
+            - secretRef:
+                name: dlk-gateway-secrets
+          image: 192.168.3.81/dlink/api-gateway:v2.0.1
+          name: alcohol-container
