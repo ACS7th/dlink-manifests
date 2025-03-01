@@ -22,5 +22,7 @@ spec:
         - envFrom:
             - secretRef:
                 name: dlk-be-alcohol-secrets
+            - configMapRef:
+                name: dlk-be-alcohol-config
           image: 192.168.3.81/dlink/review-service:v2.0.0
           name: spring-container 

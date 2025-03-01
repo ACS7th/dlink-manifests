@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  ALCOHOL_SERVICE_URI: http://dlk-be-alcohol-svc.dlk-be-alcohol.svc.cluster.local:8080
+  HIGHBALL_SERVICE_URI: http://dlk-be-highball-svc.dlk-be-alcohol.svc.cluster.local:8082
+  NEXT_URI: http://dlk-fe-next-svc.dlk-fe-next.svc.cluster.local:2100
+  REDIS_URL: http://redis:6379
+  REVIEW_SERVICE_URI: http://dlk-be-review-svc.dlk-be-alcohol.svc.cluster.local:8081
+  SPRING_PROFILES_ACTIVE: prod
+  SPRING_URI: http://dlk-gateway-svc.dlk-gateway.svc.cluster.local:9999
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: dlk-be-alcohol-config
+  namespace: dlk-be-alcohol

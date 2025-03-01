@@ -22,5 +22,7 @@ spec:
         - envFrom:
             - secretRef:
                 name: dlk-be-pairing-secrets
+            - configMapRef:
+                name: dlk-be-pairing-config
           image: 192.168.3.81/dlink/pairing-service:v2.0.0
           name: spring-container

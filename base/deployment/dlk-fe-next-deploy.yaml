@@ -25,5 +25,7 @@ spec:
           envFrom:
             - secretRef:
                 name: dlk-fe-next-secrets
+            - configMapRef:
+                name: dlk-fe-next-config
       restartPolicy: Always
 

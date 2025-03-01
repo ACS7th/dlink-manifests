@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  NEXT_URI: http://dlk-fe-next-svc.dlk-fe-next.svc.cluster.local:2100
+  NEXTAUTH_URL: http://dlink.asordk.synology.me
+  NODE_ENV: 'production #development'
+  SPRING_URI: http://dlk-gateway-svc.dlk-gateway.svc.cluster.local:9999
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: dlk-fe-next-config
+  namespace: dlk-fe-next
+

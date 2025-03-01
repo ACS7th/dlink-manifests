@@ -21,62 +21,10 @@ spec:
       containers:
         - image: 192.168.3.81/dlink/alcohol-service:v2.0.0
           name: spring-container
-          env:
-            - name: ES_DATASOURCE_URI
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: ES_DATASOURCE_URI
-                  optional: false
-            - name: JWT_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: JWT_SECRET_KEY
-            - name: NEXT_URI
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: NEXT_URI
-            - name: NEXTAUTH_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: NEXTAUTH_SECRET
-            - name: NEXTAUTH_URL
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: NEXTAUTH_URL
-            - name: NODE_ENV
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: NODE_ENV
-            - name: REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: REDIS_URL
-            - name: SPRING_DATA_MONGODB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: SPRING_DATA_MONGODB_URI
-                  optional: false
-            - name: SPRING_PROFILES_ACTIVE
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: SPRING_PROFILES_ACTIVE
-            - name: SPRING_URI
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: SPRING_URI
-            - name: ALCOHOL_SERVICE_URI
-              valueFrom:
-                secretKeyRef:
-                  name: dlk-be-alcohol-secrets
-                  key: ALCOHOL_SERVICE_URI
+          envFrom:
+            - secretRef:
+                name: dlk-be-alcohol-secrets
+            - configMapRef:
+                name: dlk-be-alcohol-config
+
 
