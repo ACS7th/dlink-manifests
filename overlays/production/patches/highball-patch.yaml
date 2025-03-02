@@ -8,5 +8,5 @@ spec:
     spec:
       containers:
         - name: spring-container
-          image: 192.168.3.81/dlink/highball-service:v2.0.4
+          image: 192.168.3.81/dlink/highball-service:v2.0.5
 
