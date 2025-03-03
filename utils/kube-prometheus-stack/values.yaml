@@ -498,6 +498,7 @@ alertmanager:
   ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
   ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
   ##
+
   config:
     global:
       resolve_timeout: 5m
@@ -528,14 +529,28 @@ alertmanager:
       group_by: ['namespace']
       group_wait: 30s
       group_interval: 5m
-      repeat_interval: 12h
-      receiver: 'null'
+      repeat_interval: 3h
+      receiver: 'slack-notifications'  # Slack 알림으로 기본 설정
       routes:
       - receiver: 'null'
         matchers:
           - alertname = "Watchdog"
+
     receivers:
-    - name: 'null'
+    - name: 'slack-notifications'
+      slack_configs:
+        - send_resolved: true
+          channel: "#acs7th-team-dlink"  # Slack에서 알림을 받을 채널
+          username: "alertmanager-bot"
+          icon_emoji: ":warning:"
+          webhook_url: "https://hooks.slack.com/services/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"
+          title: '🚨 [ALERT] {{ .CommonAnnotations.summary }}'
+          text: |
+            *Description:* {{ .CommonAnnotations.description }}
+            *Instance:* {{ .Labels.instance }}
+            *Severity:* {{ .Labels.severity }}
+            *Time:* {{ .StartsAt }}
+
     templates:
     - '/etc/alertmanager/config/*.tmpl'
 
@@ -770,7 +785,7 @@ alertmanager:
 
     ## Service type
     ##
-    type: ClusterIP
+    type: NodePort
 
   ## Configuration for creating a separate Service for each statefulset Alertmanager replica
   ##

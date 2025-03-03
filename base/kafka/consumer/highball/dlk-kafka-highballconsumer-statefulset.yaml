@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: dlk-kafka-wineconsumer-statefulset
+  name: dlk-kafka-highballconsumer-statefulset
   namespace: dlk-kafka
 spec:
-  serviceName: "dlk-kafka-wineconsumer"
+  serviceName: "dlk-kafka-highballconsumer"
   replicas: 1
   selector:
     matchLabels:
-      app: wine-consumer
+      app: highball-consumer
   template:
     metadata:
       labels:
-        app: wine-consumer
+        app: highball-consumer
     spec:
       containers:
-      - name: wine-consumer
-        image: 192.168.3.81/dlink/wineconsumer:v2.0.1
+      - name: highball-consumer
+        image: 192.168.3.81/dlink/highballconsumer:v2.0.1
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
-            name: dlk-kafka-wineconsumer-config
+            name: dlk-kafka-highballconsumer-config
         - secretRef:
             name: dlk-kafka-accesskey-secret
         volumeMounts:
-        - name: wineconsumer-storage
+        - name: highballconsumer-storage
           mountPath: /var/lib/kafka
       volumes:
-      - name: wineconsumer-storage
+      - name: highballconsumer-storage
         emptyDir: {}

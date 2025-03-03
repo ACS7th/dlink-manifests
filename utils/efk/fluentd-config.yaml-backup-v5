@@ -48,7 +48,7 @@ data:
       @type grep
       <regexp>
         key $.kubernetes.namespace_name
-        pattern ^(dlk-be-alcohol|dlk-be-auth|dlk-be-pairing|dlk-fe-next|dlk-gateway|dlk-kafka|dlk-kafka-zook)$
+        pattern ^(dlk-be-alcohol|dlk-be-auth|dlk-be-pairing|dlk-cicd|dlk-fe-next|dlk-gateway|dlk-kafka|dlk-kafka-zook|dlk-redis)$
       </regexp>
     </filter>
 
@@ -76,16 +76,16 @@ data:
       @type elasticsearch
       host 192.168.3.82
       port 9200
-      logstash_format false
-      index_name logs
-      type_name _doc
+      logstash_format true
+      logstash_prefix fluentd
+      logstash_dateformat %Y.%m.%d
       include_tag_key true
       tag_key @log_name
       <buffer>
-        @type file
-        path /var/log/fluentd-buffer
-        flush_mode interval
-        flush_interval 5s
-        retry_max_interval 30
+        @type memory
+        chunk_limit_size 2MB
+        queue_limit_length 8
+        flush_interval 10s
       </buffer>
     </match>
+
