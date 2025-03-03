@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlk-kafka-wineproducer-deploy
+  namespace: dlk-kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wineproducer
+  template:
+    metadata:
+      labels:
+        app: wineproducer
+    spec:
+      containers:
+      - name: wineproducer
+        image: 192.168.3.81/dlink/wineproducer:v2.0.0
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: dlk-kafka-wineproducer-config
+

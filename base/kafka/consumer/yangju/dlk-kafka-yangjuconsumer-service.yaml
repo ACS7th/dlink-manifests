@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dlk-kafka-yangjuconsumer-service
+  namespace: dlk-kafka
+spec:
+  clusterIP: None
+  selector:
+    app: yangju-consumer
+  ports:
+    - name: kafka-yangjuconsumer
+      port: 9092
+      targetPort: 9092
+

@@ -27,9 +27,16 @@ spec:
                 name: dlk-fe-next-secrets
             - configMapRef:
                 name: dlk-fe-next-config
+          resources:
+            requests:
+              cpu: "150m"
+              memory: "128Mi"
+            limits:
+              cpu: "700m"
+              memory: "256Mi"
           livenessProbe:
             httpGet:
-              path: /
+              path: /api/v1/health
               port: 3000
             initialDelaySeconds: 20
             periodSeconds: 10
@@ -37,7 +44,7 @@ spec:
             timeoutSeconds: 5
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/v1/alcohols/wines/search
               port: 3000
             initialDelaySeconds: 20
             periodSeconds: 10

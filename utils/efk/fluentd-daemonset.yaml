@@ -14,6 +14,8 @@ spec:
       labels:
         app: fluentd
     spec:
+      securityContext:
+        runAsUser: 0  # 🛠 Fluentd를 root 사용자로 실행
       serviceAccountName: fluentd-sa
       tolerations:
       - key: node-role.kubernetes.io/master
@@ -22,6 +24,8 @@ spec:
       containers:
       - name: fluentd
         image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
+        securityContext:
+            privileged: true  # 🛠 컨테이너에 root-level 권한 부여
         env:
         - name: FLUENT_ELASTICSEARCH_HOST
           value: "192.168.3.82"

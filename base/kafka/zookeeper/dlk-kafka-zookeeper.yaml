@@ -1,0 +1,32 @@
+# Zookeeper StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dlk-kafka-zookeeper
+  namespace: dlk-kafka-zook
+spec:
+  serviceName: dlk-kafka-zookeeper
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dlk-kafka-zookeeper
+  template:
+    metadata:
+      labels:
+        app: dlk-kafka-zookeeper
+    spec:
+      containers:
+      - name: zookeeper
+        image: bitnami/zookeeper:latest
+        env:
+          - name: ALLOW_ANONYMOUS_LOGIN
+            value: "yes"
+        ports:
+          - containerPort: 2181
+            name: client
+        volumeMounts:
+          - name: zookeeper-data
+            mountPath: /bitnami/zookeeper
+      volumes:
+        - name: zookeeper-data
+          emptyDir: {}  

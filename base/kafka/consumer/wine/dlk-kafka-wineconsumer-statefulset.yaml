@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dlk-kafka-yangjuconsumer-statefulset
+  namespace: dlk-kafka
+spec:
+  serviceName: "dlk-kafka-yangjuconsumer"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yangju-consumer
+  template:
+    metadata:
+      labels:
+        app: yangju-consumer
+    spec:
+      containers:
+      - name: yangju-consumer
+        image: 192.168.3.81/dlink/yangjuconsumer:v2.0.1
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: dlk-kafka-yangjuconsumer-config
+        - secretRef:
+            name: dlk-kafka-accesskey-secret
+        volumeMounts:
+        - name: yangjuconsumer-storage
+          mountPath: /var/lib/kafka
+      volumes:
+      - name: yangjuconsumer-storage
+        emptyDir: {}

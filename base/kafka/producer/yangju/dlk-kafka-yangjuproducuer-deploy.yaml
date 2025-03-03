@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlk-kafka-yangjuproducer-deploy
+  namespace: dlk-kafka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yangjuproducer
+  template:
+    metadata:
+      labels:
+        app: yangjuproducer
+    spec:
+      containers:
+      - name: yangjuproducer
+        image: 192.168.3.81/dlink/yangjuproducer:v2.0.0
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: dlk-kafka-yangjuproducer-config
+

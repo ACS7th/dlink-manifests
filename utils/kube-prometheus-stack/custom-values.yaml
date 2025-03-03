@@ -3,7 +3,7 @@ crds:
 
 grafana:
   service:
-    type: LoadBalancer
+    type: NodePort
     port: 80
   persistence:
     enabled: true

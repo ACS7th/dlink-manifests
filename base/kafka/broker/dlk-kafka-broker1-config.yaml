@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dlk-kafka-broker1-config
+  namespace: dlk-kafka
+data:
+  BROKER_ID: "1"
+  ZOOKEEPER_CONNECT: "dlk-kafka-zookeeper.dlk-kafka-zook.svc.cluster.local:2181"
+  LISTENERS: "PLAINTEXT://:9092"
+  ADVERTISED_LISTENERS: "PLAINTEXT://dlk-kafka-broker1-service.dlk-kafka.svc.cluster.local:9092"
+  LOG_DIRS: "/var/lib/kafka/logs-1"
+

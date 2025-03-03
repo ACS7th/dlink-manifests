@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: dlk-monitoring
+data:
+  fluent.conf: |
+    <system>
+      log_level debug
+    </system>
+
+    # ----------------------------------------
+    # ✅ [Kubernetes 로그 수집: 특정 네임스페이스 필터링]
+    # - dlk-* 네임스페이스의 컨테이너 로그만 수집
+    # ----------------------------------------
+    <source>
+      @type tail
+      path /var/log/containers/dlk-*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      rotate_wait 10s
+      skip_refresh_on_startup true
+      refresh_interval 60
+      path_key source
+
+      <parse>
+        @type multiline
+        format_firstline /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+(?:\+\d{2}(?::\d{2})?)?/
+        format1 /^(?<time>[^\s]+)\s+(?<stream>\S+)\s+(?<log>.+)$/
+      </parse>
+    </source>
+
+    # ----------------------------------------
+    # ✅ [Kubernetes 메타데이터 추가]
+    # - 컨테이너 이름, 네임스페이스 등을 추가
+    # ----------------------------------------
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+      @id id_kubernetes_metadata
+    </filter>
+
+    # ----------------------------------------
+    # ✅ [특정 네임스페이스 필터링]
+    # - dlk-* 네임스페이스에 해당하는 로그만 유지
+    # ----------------------------------------
+    <filter kubernetes.var.log.containers.**>
+      @type grep
+      <regexp>
+        key $.kubernetes.namespace_name
+        pattern ^(dlk-be-alcohol|dlk-be-auth|dlk-be-pairing|dlk-cicd|dlk-fe-next|dlk-gateway|dlk-kafka|dlk-kafka-zook|dlk-redis)$
+      </regexp>
+    </filter>
+
+    # ----------------------------------------
+    # ✅ [로그 데이터 변환: 필요한 정보만 유지 + @timestamp 적용]
+    # - 로그 본문(log) 필드만 남기고 메타데이터 추가
+    # - @timestamp을 ISO 8601 (UTC)로 변환하여 추가
+    # ----------------------------------------
+    <filter kubernetes.var.log.containers.**>
+      @type record_transformer
+      enable_ruby
+      <record>
+        log ${record["log"] ? record["log"].gsub(/\\\\/, '').strip : "EMPTY_LOG"}
+        stream ${record["stream"]}
+        container_name ${record.dig("kubernetes", "container_name") ? record.dig("kubernetes", "container_name").to_s : "unknown"}
+        namespace ${record.dig("kubernetes", "namespace_name") ? record.dig("kubernetes", "namespace_name").to_s : "unknown"}
+        time ${record["time"]}
+
+        # ✅ @timestamp 변환 (ISO 8601 UTC)
+        @timestamp ${record["time"] ? Time.parse(record["time"]).utc.iso8601 : Time.now.utc.iso8601}
+      </record>
+    </filter>
+
+    # ----------------------------------------
+    # ✅ [Elasticsearch 전송]
+    # - 필터링된 로그를 Elasticsearch에 저장
+    # ----------------------------------------
+    <match kubernetes.**>
+      @type elasticsearch
+      host 192.168.3.82
+      port 9200
+      logstash_format true  # ✅ 자동 매핑 활성화
+      logstash_prefix logs
+      type_name _doc
+      include_tag_key true
+      tag_key @log_name
+      time_key @timestamp  # ✅ @timestamp을 Elasticsearch의 시간 필드로 지정
+      <buffer>
+        @type file
+        path /var/log/fluentd-buffer
+        flush_mode interval
+        flush_interval 5s
+        retry_max_interval 30
+      </buffer>
+    </match>
+
