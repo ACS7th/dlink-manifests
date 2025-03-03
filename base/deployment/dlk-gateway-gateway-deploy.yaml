@@ -22,5 +22,12 @@ spec:
                 name: dlk-gateway-secrets
             - configMapRef:
                 name: dlk-gateway-config
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "1Gi"
+            limits:
+              cpu: "1000m"
+              memory: "1.5Gi"        
           image: 192.168.3.81/dlink/api-gateway:v2.0.1
           name: alcohol-container

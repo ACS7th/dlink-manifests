@@ -26,4 +26,11 @@ spec:
                 name: dlk-be-alcohol-config
           image: 192.168.3.81/dlink/highball-service:v2.0.0
           name: spring-container
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "400Mi"
+            limits:
+              cpu: "1500m"
+              memory: "1.25Gi"
 

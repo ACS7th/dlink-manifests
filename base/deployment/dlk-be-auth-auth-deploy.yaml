@@ -19,10 +19,17 @@ spec:
       imagePullSecrets:
         - name: dlk-be-auth-harbor-secrets
       containers:
-        - envFrom:
+        - name: spring-container
+          image: 192.168.3.81/dlink/auth-service:v2.0.0
+          envFrom:
             - secretRef:
                 name: dlk-be-auth-secrets
             - configMapRef:
                 name: dlk-be-auth-config
-          image: 192.168.3.81/dlink/auth-service:v2.0.0
-          name: spring-container
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "800m"
+              memory: "1Gi"
