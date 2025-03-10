@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlk-fe-next-deploy
+  namespace: dlk-fe-next
+spec:
+  replicas: 3  # 클라우드 환경에서는 3개로 확장
+  template:
+    spec:
+      serviceAccountName: aws-secrets-sa  # AWS Secrets Manager 접근을 위한 서비스 계정
+      imagePullSecrets:
+        - name: ecr-secret  # 프라이빗 ECR 인증 적용
+      containers:
+        - name: nextjs-container
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/next-app:v2.0.5  # 프라이빗 ECR 이미지 사용
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: dlk-fe-next-secrets
+                  key: NEXT_PUBLIC_API_URL
+            - name: NEXT_PUBLIC_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: dlk-fe-next-secrets
+                  key: NEXT_PUBLIC_SECRET_KEY
+          volumeMounts:
+            - name: secrets-store
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+      volumes:
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "aws-secrets"
+
