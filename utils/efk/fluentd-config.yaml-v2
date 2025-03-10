@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: dlk-monitoring
+data:
+  fluent.conf: |
+    # 1) Fluentd 자체 로그를 버립니다.
+    <match fluent.**>
+      @type null
+    </match>
+
+    # 2) CRI 표준 포맷 로그 수집
+    <source>
+      @type tail
+      path /var/log/containers/*
+      pos_file /var/log/containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        # 여기서 cri를 사용해 CRI 로그 포맷( <timestamp> <stream> <flag> <message> )을 자동 파싱
+        @type cri
+      </parse>
+    </source>
+
+    # 3) K8s 메타데이터 추가
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+    </filter>
+
+    <filter kubernetes.**>
+      @type record_modifier
+      <record>
+        log_time ${record["timestamp"]}
+      </record>
+    </filter>
+
+    # 4) 특정 네임스페이스/Pod 로그 무시 (원하시는 대로 추가/삭제 가능)
+    <match kubernetes.var.log.**dlk-cicd**>
+      @type null
+    </match>
+    <match kubernetes.var.log.**dlk-monitoring**>
+      @type null
+    </match>
+    <match kubernetes.var.log.**dlk-redis**>
+      @type null
+    </match>
+    <match kubernetes.var.log.**openebs**>
+      @type null
+    </match>
+    <match kubernetes.var.log.**kube-system**>
+      @type null
+    </match>
+    <match kubernetes.var.log.**metallb-system**>
+      @type null
+    </match>
+
+    # 5) 나머지 모든 로그는 Elasticsearch로 전송
+    <match kubernetes.**>
+      @type elasticsearch_dynamic
+      @log_level info
+      include_tag_key true
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
+      ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'true'}"
+      reload_connections true
+      logstash_format true
+      # pod_name 기준으로 인덱스 prefix를 만들도록 예시
+      logstash_prefix ${record['kubernetes']['pod_name']}
+      <buffer>
+        @type file
+        path /var/log/fluentd-buffers/kubernetes.system.buffer
+        flush_mode interval
+        retry_type exponential_backoff
+        flush_thread_count 2
+        flush_interval 5s
+        retry_forever true
+        retry_max_interval 30
+        chunk_limit_size 2M
+        queue_limit_length 32
+        overflow_action block
+      </buffer>
+    </match>
+

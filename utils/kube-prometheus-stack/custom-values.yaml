@@ -1,0 +1,83 @@
+crds:
+  create: false
+
+grafana:
+  service:
+    type: NodePort
+    port: 80
+  persistence:
+    enabled: true
+    type: sts
+    storageClassName: openebs-hostpath
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - charlie-k8s-worker1
+
+prometheus:
+  service:
+    type: NodePort
+  prometheusSpec:
+    remoteWriteDashboards: false
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - charlie-k8s-worker1
+    serverSideApply: true
+    retention: 12h
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: openebs-hostpath
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 25Gi
+    resources:
+      requests:
+        memory: 3Gi
+        cpu: 500m
+      limits:
+        memory: 6Gi
+        cpu: 2
+
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      receiver: 'slack-notifications'
+      routes:
+      - receiver: 'null'
+        matchers:
+          - alertname = "Watchdog"
+    receivers:
+      - name: 'slack-notifications'
+        slack_configs:
+          - send_resolved: true
+            channel: "#alerts"
+            api_url: "https://hooks.slack.com/services/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"
+            title: "🔥 Alert: {{ .CommonAnnotations.summary }}"
+            text: "{{ .CommonAnnotations.description }}"
+

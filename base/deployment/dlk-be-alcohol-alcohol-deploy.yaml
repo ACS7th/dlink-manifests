@@ -1,0 +1,37 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: alcohol-service
+  name: dlk-be-alcohol-alcohol-deploy
+  namespace: dlk-be-alcohol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alcohol-service
+  template:
+    metadata:
+      labels:
+        app: alcohol-service
+    spec:
+      imagePullSecrets:
+        - name: dlk-be-alcohol-harbor-secrets
+      containers:
+        - image: 192.168.3.81/dlink/alcohol-service:v2.0.0
+          name: spring-container
+          envFrom:
+            - secretRef:
+                name: dlk-be-alcohol-secrets
+            - configMapRef:
+                name: dlk-be-alcohol-config
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "800Mi"
+            limits:
+              cpu: "1100m"
+              memory: "1Gi"
+
+

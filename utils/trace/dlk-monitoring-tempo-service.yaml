@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tempo
+  namespace: dlk-monitoring
+spec:
+  selector:
+    app: tempo
+  ports:
+    - name: tempo-ui
+      port: 3100
+      targetPort: 3100
+    - name: zipkin
+      port: 9411
+      targetPort: 9411
+    - name: otlp-grpc
+      port: 4317
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+

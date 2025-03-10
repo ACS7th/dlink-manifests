@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: dlk-kafka-ui
+  namespace: dlk-monitoring
+  labels:
+    app: kafka-ui
+spec:
+  selector:
+    matchLabels:
+      app: kafka-ui
+  template:
+    metadata:
+      labels:
+        app: kafka-ui
+    spec:
+      containers:
+      - name: kafka-ui
+        image: provectuslabs/kafka-ui:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
+            name: http
+        env:
+          # Kafka UI가 연결할 Kafka 클러스터 설정
+          - name: KAFKA_CLUSTERS_0_NAME
+            value: "dlk-kafka-cluster"
+          - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+            value: "dlk-kafka-broker1-service.dlk-kafka.svc.cluster.local:9092,dlk-kafka-broker2-service.dlk-kafka.svc.cluster.local:9093,dlk-kafka-broker3-service.dlk-kafka.svc.cluster.local:9094"
+

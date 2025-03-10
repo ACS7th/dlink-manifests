@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  ALCOHOL_SERVICE_URI: http://dlk-be-alcohol-svc.dlk-be-alcohol.svc.cluster.local:8080
+  AUTH_SERVICE_URI: http://dlk-be-auth-svc.dlk-be-auth.svc.cluster.local:8083
+  HIGHBALL_SERVICE_URI: http://dlk-be-highball-svc.dlk-be-alcohol.svc.cluster.local:8082
+  NEXT_URI: http://dlk-fe-next-svc.dlk-fe-next.svc.cluster.local:2100
+  NEXTAUTH_URL: http://dlink.asordk.synology.me
+  NODE_ENV: 'production #development'
+  PAIRING_SERVICE_URI: http://dlk-be-pairing-svc.dlk-be-pairing.svc.cluster.local:8084
+  REDIS_URL: http://redis:6379
+  REVIEW_SERVICE_URI: http://dlk-be-review-svc.dlk-be-alcohol.svc.cluster.local:8081
+  SPRING_PROFILES_ACTIVE: prod
+  SPRING_URI: http://dlk-gateway-svc.dlk-gateway.svc.cluster.local:9999
+  OTEL_COLLECTOR_URI: http://otel-collector.dlk-monitoring.svc.cluster.local:9411/api/v2/spans
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: dlk-gateway-config
+  namespace: dlk-gateway

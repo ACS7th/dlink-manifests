@@ -14,30 +14,35 @@ spec:
       labels:
         app: fluentd
     spec:
+      # root 권한으로 실행하는 예시 (필요에 따라 조정)
+      securityContext:
+        runAsUser: 0
       serviceAccountName: fluentd-sa
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Exists
         effect: NoSchedule
+      terminationGracePeriodSeconds: 30
       containers:
       - name: fluentd
         image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
+        securityContext:
+          privileged: true
         env:
-        - name: FLUENT_ELASTICSEARCH_HOST
-          value: "192.168.3.82"
-        - name: FLUENT_ELASTICSEARCH_PORT
-          value: "9200"
+          - name: FLUENT_ELASTICSEARCH_HOST
+            value: "192.168.3.82"
+          - name: FLUENT_ELASTICSEARCH_PORT
+            value: "9200"
         volumeMounts:
-        - name: varlog
-          mountPath: /var/log
-        - name: config-volume
-          mountPath: /fluentd/etc
-      terminationGracePeriodSeconds: 30
+          - name: varlog
+            mountPath: /var/log
+          - name: config-volume
+            mountPath: /fluentd/etc
       volumes:
-      - name: varlog
-        hostPath:
-          path: /var/log
-      - name: config-volume
-        configMap:
-          name: fluentd-config
+        - name: varlog
+          hostPath:
+            path: /var/log
+        - name: config-volume
+          configMap:
+            name: fluentd-config
 

@@ -1,0 +1,35 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: auth-service
+  name: dlk-be-auth-auth-deploy
+  namespace: dlk-be-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      imagePullSecrets:
+        - name: dlk-be-auth-harbor-secrets
+      containers:
+        - name: spring-container
+          image: 192.168.3.81/dlink/auth-service:v2.0.0
+          envFrom:
+            - secretRef:
+                name: dlk-be-auth-secrets
+            - configMapRef:
+                name: dlk-be-auth-config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "800m"
+              memory: "1Gi"

@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  PAIRING_SERVICE_URI: http://dlk-be-pairing-svc.dlk-be-pairing.svc.cluster.local:8084
+  REDIS_URL: http://redis:6379
+  SPRING_PROFILES_ACTIVE: prod
+  SPRING_URI: http://dlk-gateway-svc.dlk-gateway.svc.cluster.local:9999
+  OTEL_COLLECTOR_URI: http://otel-collector.dlk-monitoring.svc.cluster.local:9411/api/v2/spans
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: dlk-be-pairing-config
+  namespace: dlk-be-pairing

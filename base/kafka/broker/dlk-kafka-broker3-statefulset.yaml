@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dlk-kafka-broker3
+  namespace: dlk-kafka
+spec:
+  serviceName: dlk-kafka-broker3-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-broker3
+  template:
+    metadata:
+      labels:
+        app: kafka-broker3
+    spec:
+      containers:
+        - name: kafka-broker
+          image: 192.168.3.81/dlink/kafka:v2.0.0
+          ports:
+            - containerPort: 9094
+              name: kafka
+          envFrom:
+            - configMapRef:
+                name: dlk-kafka-broker3-config
+          volumeMounts:
+            - name: kafka-logs
+              mountPath: /var/lib/kafka/logs-3
+      volumes:
+        - name: kafka-logs
+          emptyDir: {}
+

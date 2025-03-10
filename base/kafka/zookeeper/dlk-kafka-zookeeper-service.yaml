@@ -1,0 +1,15 @@
+# Zookeeper Headless Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: dlk-kafka-zookeeper
+  namespace: dlk-kafka-zook
+spec:
+  clusterIP: None  # StatefulSet에서 hostname 사용 가능하도록
+  selector:
+    app: dlk-kafka-zookeeper
+  ports:
+    - name: client
+      port: 2181
+      targetPort: 2181
+

@@ -1,0 +1,36 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: highball-service
+  name: dlk-be-alcohol-highball-deploy
+  namespace: dlk-be-alcohol
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: highball-service
+  template:
+    metadata:
+      labels:
+        app: highball-service
+    spec:
+      imagePullSecrets:
+        - name: dlk-be-alcohol-harbor-secrets
+      containers:
+        - envFrom:
+            - secretRef:
+                name: dlk-be-alcohol-secrets
+            - configMapRef:
+                name: dlk-be-alcohol-config
+          image: 192.168.3.81/dlink/highball-service:v2.0.0
+          name: spring-container
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "400Mi"
+            limits:
+              cpu: "1500m"
+              memory: "1.25Gi"
+

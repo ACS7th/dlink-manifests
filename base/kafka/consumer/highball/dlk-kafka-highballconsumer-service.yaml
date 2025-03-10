@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dlk-kafka-highballconsumer-service
+  namespace: dlk-kafka
+spec:
+  clusterIP: None
+  selector:
+    app: highball-consumer
+  ports:
+    - name: kafka-highballconsumer
+      port: 9092
+      targetPort: 9092
+

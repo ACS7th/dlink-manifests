@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dlk-be-auth-auth-deploy
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: spring-container
+          image: 192.168.3.81/dlink/auth-service:v2.0.13
+

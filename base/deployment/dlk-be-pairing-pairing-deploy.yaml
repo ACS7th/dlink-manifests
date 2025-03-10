@@ -1,0 +1,35 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pairing-service
+  name: dlk-be-pairing-pairing-service-deploy
+  namespace: dlk-be-pairing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pairing-service
+  template:
+    metadata:
+      labels:
+        app: pairing-service
+    spec:
+      imagePullSecrets:
+        - name: dlk-be-pairing-harbor-secrets
+      containers:
+        - name: spring-container
+          image: 192.168.3.81/dlink/pairing-service:v2.0.0
+          envFrom:
+            - secretRef:
+                name: dlk-be-pairing-secrets
+            - configMapRef:
+                name: dlk-be-pairing-config
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "1500m"
+              memory: "1Gi"
