@@ -16,7 +16,7 @@ spec:
         app: nextjs
     spec:
       imagePullSecrets:
-        - name: dlk-fe-next-harbor-secrets
+        - name: dlk-fe-next-ecr-secret
       containers:
         - name: nextjs-container
           image: 192.168.3.81/dlink/next-app:v2.0.0
