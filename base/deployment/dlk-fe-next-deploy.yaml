@@ -15,7 +15,6 @@ spec:
       labels:
         app: nextjs
     spec:
-      serviceAccountName: aws-secrets-sa
       imagePullSecrets:
         - name: dlk-fe-next-ecr-secret
       containers:
@@ -23,15 +22,11 @@ spec:
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/next-app:v2.0.5
           ports:
             - containerPort: 3000
-          envFrom:
-            - secretRef:
-                name: dlk-fe-next-secrets
-            - configMapRef:
-                name: dlk-fe-next-config
-          volumeMounts:
-            - name: secrets-store
-              mountPath: "/mnt/secrets-store"
-              readOnly: true
+#          envFrom:
+#            - secretRef:
+#                name: dlk-fe-next-secrets
+#            - configMapRef:
+#                name: dlk-fe-next-config
           livenessProbe:
             httpGet:
               path: /
@@ -48,12 +43,5 @@ spec:
             periodSeconds: 10
             failureThreshold: 3
             timeoutSeconds: 5
-      volumes:
-        - name: secrets-store
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true
-            volumeAttributes:
-              secretProviderClass: "aws-secrets"
       restartPolicy: Always
 

@@ -17,7 +17,7 @@ spec:
         app: pairing-service
     spec:
       imagePullSecrets:
-        - name: dlk-be-pairing-harbor-secrets
+        - name: dlk-be-pairing-ecr-secrets
       containers:
         - name: spring-container
           #image: 192.168.3.81/dlink/pairing-service:v2.0.0
