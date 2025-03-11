@@ -4,24 +4,36 @@ metadata:
   name: dlk-fe-next-deploy
   namespace: dlk-fe-next
 spec:
-  replicas: 2
-  selector:  # ✅ selector 추가 (immutable 필드이므로 기존 Deployment와 동일해야 함)
+  selector:
     matchLabels:
       app: nextjs
   template:
     metadata:
       labels:
-        app: nextjs  # ✅ selector와 일치해야 함
+        app: nextjs
     spec:
-      serviceAccountName: aws-secrets-sa  
+      serviceAccountName: aws-secrets-sa
       imagePullSecrets:
-        - name: dlk-fe-ecr-secret
+        - name: dlk-fe-next-ecr-secret
       containers:
         - name: nextjs-container
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/next-app:v2.0.5
-          envFrom:
-            - secretRef:
-                name: dlk-secrets  # ✅ Kubernetes Secret을 한 번에 로드
+          env:
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_ACCESS_KEY
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_SECRET_KEY
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: GOOGLE_CLIENT_ID
           volumeMounts:
             - name: secrets-store
               mountPath: "/mnt/secrets-store"
