@@ -3,12 +3,8 @@ kind: Deployment
 metadata:
   name: dlk-be-alcohol-highball-deploy
 spec:
-  replicas: 1
   template:
     spec:
-      serviceAccountName: eks-secrets-sa
-      imagePullSecrets:
-        - name: dlk-be-alcohol-ecr-secret
       containers:
         - name: spring-container
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/highball-service:v2.0.5
@@ -17,17 +13,17 @@ spec:
               mountPath: "/mnt/secrets"
               readOnly: true
           env:
-            - name: "AWS_ACCESS_KEY"
+            - name: AWS_ACCESS_KEY
               value: "/mnt/secrets/AWS_ACCESS_KEY"
-            - name: "AWS_SECRET_KEY"
+            - name: AWS_SECRET_KEY
               value: "/mnt/secrets/AWS_SECRET_KEY"
-            - name: "ES_DATASOURCE_URI"
+            - name: ES_DATASOURCE_URI
               value: "/mnt/secrets/ES_DATASOURCE_URI"
-            - name: "JWT_SECRET_KEY"
+            - name: JWT_SECRET_KEY
               value: "/mnt/secrets/JWT_SECRET_KEY"
-            - name: "REDIS_URL"
+            - name: REDIS_URL
               value: "/mnt/secrets/REDIS_URL"
-            - name: "SPRING_DATA_MONGODB_URI"
+            - name: SPRING_DATA_MONGODB_URI
               value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
       volumes:
         - name: secrets-store-inline
@@ -36,3 +32,4 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "aws-secrets"
+
