@@ -4,7 +4,7 @@ metadata:
   name: dlk-fe-next-deploy
   namespace: dlk-fe-next
 spec:
-  replicas: 1
+  replicas: 2
   template:
     spec:
       serviceAccountName: eks-secrets-sa
