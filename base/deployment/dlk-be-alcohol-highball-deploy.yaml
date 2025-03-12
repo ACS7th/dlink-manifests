@@ -19,12 +19,12 @@ spec:
       imagePullSecrets:
         - name: dlk-be-alcohol-harbor-secrets
       containers:
-#        - envFrom:
+#         envFrom:
 #            - secretRef:
 #                name: dlk-be-alcohol-secrets
 #            - configMapRef:
 #                name: dlk-be-alcohol-config
-          image: 192.168.3.81/dlink/highball-service:v2.0.0
+        - image: 192.168.3.81/dlink/highball-service:v2.0.0
           name: spring-container
           resources:
             requests:

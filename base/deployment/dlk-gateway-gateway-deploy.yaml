@@ -24,7 +24,7 @@ spec:
 #                name: dlk-gateway-secrets
 #            - configMapRef:
 #                name: dlk-gateway-config
-          resources:
+        - resources:
             requests:
               cpu: "200m"
               memory: "1Gi"
