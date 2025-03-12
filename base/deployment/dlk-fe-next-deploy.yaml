@@ -49,10 +49,10 @@ spec:
               mountPath: "/mnt/secrets"
               readOnly: true
           env:
-            - name: "AWS_ACCESS_KEY"
-              value: "/mnt/secrets/AWS_ACCESS_KEY"
-            - name: "AWS_SECRET_KEY"
-              value: "/mnt/secrets/AWS_SECRET_KEY"
+#            - name: "AWS_ACCESS_KEY"
+#              value: "/mnt/secrets/AWS_ACCESS_KEY"
+#            - name: "AWS_SECRET_KEY"
+#              value: "/mnt/secrets/AWS_SECRET_KEY"
             - name: "GOOGLE_CLIENT_ID"
               value: "/mnt/secrets/GOOGLE_CLIENT_ID"
             - name: "GOOGLE_CLIENT_SECRET"
