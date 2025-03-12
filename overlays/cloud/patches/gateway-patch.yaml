@@ -17,15 +17,15 @@ spec:
               mountPath: "/mnt/secrets"
               readOnly: true
           env:
-            - name: AWS_ACCESS_KEY
+            - name: "AWS_ACCESS_KEY"
               value: "/mnt/secrets/AWS_ACCESS_KEY"
-            - name: AWS_SECRET_KEY
+            - name: "AWS_SECRET_KEY"
               value: "/mnt/secrets/AWS_SECRET_KEY"
-            - name: ES_DATASOURCE_URI
+            - name: "ES_DATASOURCE_URI"
               value: "/mnt/secrets/ES_DATASOURCE_URI"
-            - name: JWT_SECRET_KEY
+            - name: "JWT_SECRET_KEY"
               value: "/mnt/secrets/JWT_SECRET_KEY"
-            - name: SPRING_DATA_MONGODB_URI
+            - name: "SPRING_DATA_MONGODB_URI"
               value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
       volumes:
         - name: secrets-store-inline

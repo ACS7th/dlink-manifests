@@ -17,23 +17,23 @@ spec:
               mountPath: "/mnt/secrets"
               readOnly: true
           env:
-            - name: AWS_ACCESS_KEY
+            - name: "AWS_ACCESS_KEY"
               value: "/mnt/secrets/AWS_ACCESS_KEY"
-            - name: AWS_SECRET_KEY
+            - name: "AWS_SECRET_KEY"
               value: "/mnt/secrets/AWS_SECRET_KEY"
-            - name: GOOGLE_CLIENT_ID
+            - name: "GOOGLE_CLIENT_ID"
               value: "/mnt/secrets/GOOGLE_CLIENT_ID"
-            - name: GOOGLE_CLIENT_SECRET
+            - name: "GOOGLE_CLIENT_SECRET"
               value: "/mnt/secrets/GOOGLE_CLIENT_SECRET"
-            - name: KAKAO_CLIENT_SECRET
+            - name: "KAKAO_CLIENT_SECRET"
               value: "/mnt/secrets/KAKAO_CLIENT_SECRET"
-            - name: KAKAO_REST_API
+            - name: "KAKAO_REST_API"
               value: "/mnt/secrets/KAKAO_REST_API"
-            - name: NAVER_CLIENT_ID
+            - name: "NAVER_CLIENT_ID"
               value: "/mnt/secrets/NAVER_CLIENT_ID"
-            - name: NAVER_CLIENT_SECRET
+            - name: "NAVER_CLIENT_SECRET"
               value: "/mnt/secrets/NAVER_CLIENT_SECRET"
-            - name: NEXTAUTH_SECRET
+            - name: "NEXTAUTH_SECRET"
               value: "/mnt/secrets/NEXTAUTH_SECRET"
       volumes:
         - name: secrets-store-inline
