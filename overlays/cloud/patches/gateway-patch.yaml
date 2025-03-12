@@ -34,4 +34,3 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "aws-secrets"
-
