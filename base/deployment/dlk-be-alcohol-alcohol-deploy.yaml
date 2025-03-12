@@ -21,11 +21,11 @@ spec:
       containers:
         - image: 192.168.3.81/dlink/alcohol-service:v2.0.0
           name: spring-container
-          envFrom:
-            - secretRef:
-                name: dlk-be-alcohol-secrets
-            - configMapRef:
-                name: dlk-be-alcohol-config
+#          envFrom:
+#            - secretRef:
+#                name: dlk-be-alcohol-secrets
+#            - configMapRef:
+#                name: dlk-be-alcohol-config
           resources:
             requests:
               cpu: "50m"

@@ -22,11 +22,11 @@ spec:
         - name: spring-container
           #image: 192.168.3.81/dlink/pairing-service:v2.0.0
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/pairing-service:v2.0.5
-          envFrom:
-            - secretRef:
-                name: dlk-be-pairing-secrets
-            - configMapRef:
-                name: dlk-be-pairing-config
+#          envFrom:
+#            - secretRef:
+#                name: dlk-be-pairing-secrets
+#            - configMapRef:
+#                name: dlk-be-pairing-config
           resources:
             requests:
               cpu: "100m"

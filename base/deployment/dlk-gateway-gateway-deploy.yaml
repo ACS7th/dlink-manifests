@@ -17,11 +17,11 @@ spec:
         app: api-gateway
     spec:
       containers:
-        - envFrom:
-            - secretRef:
-                name: dlk-gateway-secrets
-            - configMapRef:
-                name: dlk-gateway-config
+#        - envFrom:
+#            - secretRef:
+#                name: dlk-gateway-secrets
+#            - configMapRef:
+#                name: dlk-gateway-config
           resources:
             requests:
               cpu: "200m"

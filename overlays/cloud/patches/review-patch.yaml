@@ -6,9 +6,33 @@ spec:
   replicas: 1
   template:
     spec:
+      serviceAccountName: eks-secrets-sa
       imagePullSecrets:
         - name: dlk-be-alcohol-ecr-secret
       containers:
         - name: spring-container
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/review-service:v2.0.5
-
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets"
+              readOnly: true
+          env:
+            - name: AWS_ACCESS_KEY
+              value: "/mnt/secrets/AWS_ACCESS_KEY"
+            - name: AWS_SECRET_KEY
+              value: "/mnt/secrets/AWS_SECRET_KEY"
+            - name: ES_DATASOURCE_URI
+              value: "/mnt/secrets/ES_DATASOURCE_URI"
+            - name: JWT_SECRET_KEY
+              value: "/mnt/secrets/JWT_SECRET_KEY"
+            - name: REDIS_URL
+              value: "/mnt/secrets/REDIS_URL"
+            - name: SPRING_DATA_MONGODB_URI
+              value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "aws-secrets"
