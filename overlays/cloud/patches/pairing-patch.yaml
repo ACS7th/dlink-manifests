@@ -23,7 +23,7 @@ spec:
               value: "/mnt/secrets/AWS_SECRET_KEY"
             - name: "ES_DATASOURCE_URI"
               value: "/mnt/secrets/ES_DATASOURCE_URI"
-            - name:  "JWT_SECRET_KEY"
+            - name: "JWT_SECRET_KEY"
               value: "/mnt/secrets/JWT_SECRET_KEY"
             - name: "SPRING_DATA_MONGODB_URI"
               value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
@@ -34,4 +34,3 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "aws-secrets"
-

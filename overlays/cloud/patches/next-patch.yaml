@@ -4,6 +4,7 @@ metadata:
   name: dlk-fe-next-deploy
   namespace: dlk-fe-next
 spec:
+  replicas: 1
   template:
     spec:
       serviceAccountName: eks-secrets-sa
@@ -42,4 +43,3 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "aws-secrets"
-
