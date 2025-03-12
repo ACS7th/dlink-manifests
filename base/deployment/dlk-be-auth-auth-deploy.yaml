@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,6 +15,7 @@ spec:
       labels:
         app: auth-service
     spec:
+      serviceAccountName: eks-secrets-sa
       imagePullSecrets:
         - name: dlk-be-auth-harbor-secrets
       containers:

@@ -15,6 +15,7 @@ spec:
       labels:
         app: review-service
     spec:
+      serviceAccountName: eks-secrets-sa
       imagePullSecrets:
         - name: dlk-be-alcohol-harbor-secrets
       containers:

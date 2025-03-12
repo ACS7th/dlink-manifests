@@ -15,6 +15,9 @@ spec:
       labels:
         app: api-gateway
     spec:
+      serviceAccountName: eks-secrets-sa
+      imagePullSecrets:
+        - name: dlk-gateway-ecr-secret
       containers:
 #        - envFrom:
 #            - secretRef:

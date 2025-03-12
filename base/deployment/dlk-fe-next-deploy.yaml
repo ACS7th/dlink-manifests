@@ -15,6 +15,7 @@ spec:
       labels:
         app: nextjs
     spec:
+      serviceAccountName: eks-secrets-sa
       imagePullSecrets:
         - name: dlk-fe-next-ecr-secret
       containers:
