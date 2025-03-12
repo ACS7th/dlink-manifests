@@ -1,11 +1,10 @@
-# Zookeeper Headless Service
 apiVersion: v1
 kind: Service
 metadata:
   name: dlk-kafka-zookeeper
   namespace: dlk-kafka-zook
 spec:
-  clusterIP: None  # StatefulSet에서 hostname 사용 가능하도록
+  clusterIP: None  
   selector:
     app: dlk-kafka-zookeeper
   ports:
