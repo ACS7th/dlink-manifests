@@ -23,11 +23,11 @@ spec:
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/next-app:v2.0.5
           ports:
             - containerPort: 3000
-#          envFrom:
+          envFrom:
 #            - secretRef:
 #                name: dlk-fe-next-secrets
-#            - configMapRef:
-#                name: dlk-fe-next-config
+            - configMapRef:
+                name: dlk-fe-next-config
           livenessProbe:
             httpGet:
               path: /
@@ -49,24 +49,51 @@ spec:
               mountPath: "/mnt/secrets"
               readOnly: true
           env:
-#            - name: "AWS_ACCESS_KEY"
-#              value: "/mnt/secrets/AWS_ACCESS_KEY"
-#            - name: "AWS_SECRET_KEY"
-#              value: "/mnt/secrets/AWS_SECRET_KEY"
-            - name: "GOOGLE_CLIENT_ID"
-              value: "/mnt/secrets/GOOGLE_CLIENT_ID"
-            - name: "GOOGLE_CLIENT_SECRET"
-              value: "/mnt/secrets/GOOGLE_CLIENT_SECRET"
-            - name: "KAKAO_CLIENT_SECRET"
-              value: "/mnt/secrets/KAKAO_CLIENT_SECRET"
-            - name: "KAKAO_REST_API"
-              value: "/mnt/secrets/KAKAO_REST_API"
-            - name: "NAVER_CLIENT_ID"
-              value: "/mnt/secrets/NAVER_CLIENT_ID"
-            - name: "NAVER_CLIENT_SECRET"
-              value: "/mnt/secrets/NAVER_CLIENT_SECRET"
-            - name: "NEXTAUTH_SECRET"
-              value: "/mnt/secrets/NEXTAUTH_SECRET"
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_ACCESS_KEY
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_SECRET_KEY
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: GOOGLE_CLIENT_SECRET
+            - name: KAKAO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: KAKAO_CLIENT_SECRET
+            - name: KAKAO_REST_API
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: KAKAO_REST_API
+            - name: NAVER_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: NAVER_CLIENT_ID
+            - name: NAVER_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: NAVER_CLIENT_SECRET
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: NEXTAUTH_SECRET
       volumes:
         - name: secrets-store-inline
           csi:

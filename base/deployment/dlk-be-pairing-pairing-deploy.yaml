@@ -17,16 +17,17 @@ spec:
     spec:
       serviceAccountName: eks-secrets-sa
       imagePullSecrets:
-        - name: dlk-be-pairing-ecr-secrets
+#        - name: dlk-be-pairing-harbor-secrets
+        - name: dlk-be-pairing-ecr-secret
       containers:
         - name: spring-container
           #image: 192.168.3.81/dlink/pairing-service:v2.0.0
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/pairing-service:v2.0.5
-#          envFrom:
+          envFrom:
 #            - secretRef:
 #                name: dlk-be-pairing-secrets
-#            - configMapRef:
-#                name: dlk-be-pairing-config
+            - configMapRef:
+                name: dlk-be-pairing-config
           resources:
             requests:
               cpu: "100m"
@@ -39,16 +40,41 @@ spec:
               mountPath: "/mnt/secrets"
               readOnly: true
           env:
-            - name: "AWS_ACCESS_KEY"
-              value: "/mnt/secrets/AWS_ACCESS_KEY"
-            - name: "AWS_SECRET_KEY"
-              value: "/mnt/secrets/AWS_SECRET_KEY"
-            - name: "ES_DATASOURCE_URI"
-              value: "/mnt/secrets/ES_DATASOURCE_URI"
-            - name: "JWT_SECRET_KEY"
-              value: "/mnt/secrets/JWT_SECRET_KEY"
-            - name: "SPRING_DATA_MONGODB_URI"
-              value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_ACCESS_KEY
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_SECRET_KEY
+            - name: ES_DATASOURCE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: ES_DATASOURCE_URI
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: JWT_SECRET_KEY
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: SPRING_DATA_MONGODB_URI
+#            - name: "AWS_ACCESS_KEY"
+#              value: "/mnt/secrets/AWS_ACCESS_KEY"
+#            - name: "AWS_SECRET_KEY"
+#              value: "/mnt/secrets/AWS_SECRET_KEY"
+#            - name: "ES_DATASOURCE_URI"
+#              value: "/mnt/secrets/ES_DATASOURCE_URI"
+#            - name: "JWT_SECRET_KEY"
+#              value: "/mnt/secrets/JWT_SECRET_KEY"
+#            - name: "SPRING_DATA_MONGODB_URI"
+#              value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
       volumes:
         - name: secrets-store-inline
           csi:
