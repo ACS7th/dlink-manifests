@@ -11,5 +11,5 @@ spec:
         - name: dlk-be-alcohol-ecr-secret
       containers:
         - name: spring-container
-          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/alcohol-service:v2.0.5
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/alcohol-service:v3.0.2
 
