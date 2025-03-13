@@ -24,7 +24,7 @@ spec:
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/auth-service:v3.0.2 #192.168.3.81/dlink/auth-service:v2.0.0
           envFrom:
 #            - secretRef:
-#                name: dlk-be-auth-secrets
+#                name: aws-secrets #dlk-be-auth-secrets
             - configMapRef:
                 name: dlk-be-auth-config
           resources:
@@ -44,67 +44,56 @@ spec:
                 secretKeyRef:
                   name: aws-secrets
                   key: AWS_ACCESS_KEY
-          
             - name: AWS_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: AWS_SECRET_KEY
-          
             - name: GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: GOOGLE_CLIENT_ID
-          
             - name: GOOGLE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: GOOGLE_CLIENT_SECRET
-          
             - name: KAKAO_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: KAKAO_CLIENT_SECRET
-          
             - name: KAKAO_REST_API
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: KAKAO_REST_API
-          
             - name: NAVER_CLIENT_ID
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: NAVER_CLIENT_ID
-          
             - name: NAVER_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: NAVER_CLIENT_SECRET
-          
             - name: NEXTAUTH_SECRET
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: NEXTAUTH_SECRET
-          
             - name: ES_DATASOURCE_URI
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: ES_DATASOURCE_URI
-          
             - name: JWT_SECRET_KEY
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
                   key: JWT_SECRET_KEY
-          
             - name: SPRING_DATA_MONGODB_URI
               valueFrom:
                 secretKeyRef:
@@ -120,30 +109,6 @@ spec:
                 secretKeyRef:
                   name: aws-secrets
                   key: GOOGLE_APP_PASSWORD
-#            - name: "AWS_ACCESS_KEY"
-#              value: "/mnt/secrets/AWS_ACCESS_KEY"
-#            - name: "AWS_SECRET_KEY"
-#              value: "/mnt/secrets/AWS_SECRET_KEY"
-#            - name: "GOOGLE_CLIENT_ID"
-#              value: "/mnt/secrets/GOOGLE_CLIENT_ID"
-#            - name: "GOOGLE_CLIENT_SECRET"
-#              value: "/mnt/secrets/GOOGLE_CLIENT_SECRET"
-#            - name: "KAKAO_CLIENT_SECRET"
-#              value: "/mnt/secrets/KAKAO_CLIENT_SECRET"
-#            - name: "KAKAO_REST_API"
-#              value: "/mnt/secrets/KAKAO_REST_API"
-#            - name: "NAVER_CLIENT_ID"
-#              value: "/mnt/secrets/NAVER_CLIENT_ID"
-#            - name: "NAVER_CLIENT_SECRET"
-#              value: "/mnt/secrets/NAVER_CLIENT_SECRET"
-#            - name: "NEXTAUTH_SECRET"
-#              value: "/mnt/secrets/NEXTAUTH_SECRET"
-#            - name: "ES_DATASOURCE_URI"
-#              value: "/mnt/secrets/ES_DATASOURCE_URI"
-#            - name: "JWT_SECRET_KEY"
-#              value: "/mnt/secrets/JWT_SECRET_KEY"
-#            - name: "SPRING_DATA_MONGODB_URI"
-#              value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
       volumes:
         - name: secrets-store-inline
           csi:
