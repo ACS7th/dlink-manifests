@@ -21,7 +21,7 @@ spec:
         - name: dlk-be-auth-ecr-secret
       containers:
         - name: spring-container
-          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/auth-service:v2.0.13 #192.168.3.81/dlink/auth-service:v2.0.0
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/auth-service:v3.0.2 #192.168.3.81/dlink/auth-service:v2.0.0
           envFrom:
 #            - secretRef:
 #                name: dlk-be-auth-secrets
