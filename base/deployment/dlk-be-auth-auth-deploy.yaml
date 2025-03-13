@@ -114,7 +114,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: aws-secrets
-                  kdy: GOOGLE_APP_USERNAME
+                  key: GOOGLE_APP_USERNAME
             - name: GOOGLE_APP_PASSWORD
               valueFrom:
                 secretKeyRef:
