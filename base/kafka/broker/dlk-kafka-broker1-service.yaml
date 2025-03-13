@@ -1,16 +1,14 @@
-# Kafka Broker Headless Service
 apiVersion: v1
 kind: Service
-metadata:
-  name: dlk-kafka-broker1-service 
+metadata: 
+  name: dlk-kafka-broker1-service
   namespace: dlk-kafka
-spec:
-  clusterIP: None
-  selector:
+spec: 
+  type: LoadBalancer 
+  selector: 
     app: kafka-broker1
-  ports:
+  ports: 
     - name: kafka
       port: 9092
       targetPort: 9092
       protocol: TCP
-

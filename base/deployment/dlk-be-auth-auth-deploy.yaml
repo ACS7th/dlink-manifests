@@ -110,6 +110,16 @@ spec:
                 secretKeyRef:
                   name: aws-secrets
                   key: SPRING_DATA_MONGODB_URI
+            - name: GOOGLE_APP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  kdy: GOOGLE_APP_USERNAME
+            - name: GOOGLE_APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: GOOGLE_APP_PASSWORD
 #            - name: "AWS_ACCESS_KEY"
 #              value: "/mnt/secrets/AWS_ACCESS_KEY"
 #            - name: "AWS_SECRET_KEY"

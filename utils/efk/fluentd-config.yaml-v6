@@ -46,11 +46,11 @@ data:
       @type null
     </match>
 
-    # 6) Elasticsearch로 로그 전송 (인덱스 이름 변경)
+    # 6) Elasticsearch로 로그 전송
     <match kubernetes.**>
       @type elasticsearch
       logstash_format true
-      logstash_prefix eks-log   # 인덱스 이름 변경됨
+      logstash_prefix_key pod_name
       host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
       port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
       scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
@@ -66,3 +66,4 @@ data:
         retry_forever true
       </buffer>
     </match>
+
