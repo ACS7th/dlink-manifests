@@ -8,5 +8,5 @@ spec:
     spec:
       containers:
         - name: nextjs-container
-          image: 192.168.3.81/dlink/next-app:v2.0.10
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/next-app:v2.0.15
 
