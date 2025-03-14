@@ -15,40 +15,91 @@ spec:
       labels:
         app: nextjs
     spec:
+      serviceAccountName: eks-secrets-sa
       imagePullSecrets:
-        - name: dlk-fe-next-harbor-secrets
+        - name: dlk-fe-next-ecr-secret
       containers:
         - name: nextjs-container
-          image: 192.168.3.81/dlink/next-app:v2.0.0
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/next-app:v2.0.5
           ports:
             - containerPort: 3000
           envFrom:
-            - secretRef:
-                name: dlk-fe-next-secrets
+#            - secretRef:
+#                name: dlk-fe-next-secrets
             - configMapRef:
                 name: dlk-fe-next-config
-          resources:
-            requests:
-              cpu: "150m"
-              memory: "128Mi"
-            limits:
-              cpu: "700m"
-              memory: "256Mi"
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            failureThreshold: 3
-            timeoutSeconds: 5
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 3000
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            failureThreshold: 3
-            timeoutSeconds: 5
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: 3000
+#            initialDelaySeconds: 20
+#            periodSeconds: 10
+#            failureThreshold: 3
+#            timeoutSeconds: 5
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: 3000
+#            initialDelaySeconds: 20
+#            periodSeconds: 10
+#            failureThreshold: 3
+#            timeoutSeconds: 5
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets"
+              readOnly: true
+          env:
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_ACCESS_KEY
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_SECRET_KEY
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: GOOGLE_CLIENT_SECRET
+            - name: KAKAO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: KAKAO_CLIENT_SECRET
+            - name: KAKAO_REST_API
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: KAKAO_REST_API
+            - name: NAVER_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: NAVER_CLIENT_ID
+            - name: NAVER_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: NAVER_CLIENT_SECRET
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: NEXTAUTH_SECRET
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "aws-secrets"
       restartPolicy: Always
 

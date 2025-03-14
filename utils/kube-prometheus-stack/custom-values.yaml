@@ -3,7 +3,7 @@ crds:
 
 grafana:
   service:
-    type: NodePort
+    type: LoadBalancer
     port: 80
   persistence:
     enabled: true
@@ -22,11 +22,11 @@ grafana:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
-                  - charlie-k8s-worker1
+                  - kubernetes.io/hostname=ip-10-0-11-167.ap-northeast-2.compute.internal,kubernetes.io/os=linux
 
 prometheus:
   service:
-    type: NodePort
+    type: LoadBalancer
   prometheusSpec:
     remoteWriteDashboards: false
     affinity:
@@ -37,7 +37,7 @@ prometheus:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - charlie-k8s-worker1
+                    - kubernetes.io/hostname=ip-10-0-11-167.ap-northeast-2.compute.internal,kubernetes.io/os=linux
     serverSideApply: true
     retention: 12h
     storageSpec:

@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,10 +15,13 @@ spec:
       labels:
         app: api-gateway
     spec:
+      serviceAccountName: eks-secrets-sa
+      imagePullSecrets:
+        - name: dlk-gateway-ecr-secret
       containers:
         - envFrom:
-            - secretRef:
-                name: dlk-gateway-secrets
+#            - secretRef:
+#                name: dlk-gateway-secrets
             - configMapRef:
                 name: dlk-gateway-config
           resources:
@@ -29,5 +31,52 @@ spec:
             requests:
               cpu: "200m"
               memory: "1Gi"
-          image: 192.168.3.81/dlink/api-gateway:v2.0.1
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/api-gateway:v2.0.13 #192.168.3.81/dlink/api-gateway:v2.0.1
           name: alcohol-container
+          volumeMounts:
+            - name: secrets-store-inline
+              mountPath: "/mnt/secrets"
+              readOnly: true
+          env:
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_ACCESS_KEY
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: AWS_SECRET_KEY
+            - name: ES_DATASOURCE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: ES_DATASOURCE_URI
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: JWT_SECRET_KEY
+            - name: SPRING_DATA_MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: SPRING_DATA_MONGODB_URI
+#            - name: "AWS_ACCESS_KEY"
+#              value: "/mnt/secrets/AWS_ACCESS_KEY"
+#            - name: "AWS_SECRET_KEY"
+#              value: "/mnt/secrets/AWS_SECRET_KEY"
+#            - name: "ES_DATASOURCE_URI"
+#              value: "/mnt/secrets/ES_DATASOURCE_URI"
+#            - name: "JWT_SECRET_KEY"
+#              value: "/mnt/secrets/JWT_SECRET_KEY"
+#            - name: "SPRING_DATA_MONGODB_URI"
+#              value: "/mnt/secrets/SPRING_DATA_MONGODB_URI"
+      volumes:
+        - name: secrets-store-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "aws-secrets"

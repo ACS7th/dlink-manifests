@@ -8,5 +8,5 @@ spec:
     spec:
       containers:
         - name: spring-container
-          image: 192.168.3.81/dlink/review-service:v2.0.5
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/review-service:v3.0.0
 

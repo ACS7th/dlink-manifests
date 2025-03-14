@@ -1,9 +1,10 @@
 apiVersion: v1
 data:
   NEXT_URI: http://dlk-fe-next-svc.dlk-fe-next.svc.cluster.local:2100
-  NEXTAUTH_URL: https://f7a1-118-218-200-33.ngrok-free.app
+  NEXTAUTH_URL: https://eks.dlink.my
   NODE_ENV: 'production'
   SPRING_URI: http://dlk-gateway-svc.dlk-gateway.svc.cluster.local:9999
+  AWS_GATEWAY_URI: https://pccgr31qo4.execute-api.ap-northeast-2.amazonaws.com
 kind: ConfigMap
 metadata:
   creationTimestamp: null

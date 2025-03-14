@@ -6,7 +6,7 @@ metadata:
 data:
   BROKER_ID: "3"
   ZOOKEEPER_CONNECT: "dlk-kafka-zookeeper.dlk-kafka-zook.svc.cluster.local:2181"
-  LISTENERS: "PLAINTEXT://:9094"
-  ADVERTISED_LISTENERS: "PLAINTEXT://dlk-kafka-broker3-service.dlk-kafka.svc.cluster.local:9094"
+  LISTENERS: "PLAINTEXT://:9092"
+  ADVERTISED_LISTENERS: "PLAINTEXT://dlk-kafka-broker3-service.dlk-kafka.svc.cluster.local:9092"
   LOG_DIRS: "/var/lib/kafka/logs-3"
 

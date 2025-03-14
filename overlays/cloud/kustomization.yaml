@@ -1,63 +1,46 @@
-# Base 디렉토리 포함
-bases:
+resources:
   - ../../base
 
-# 패치 적용 (각 네임스페이스별 Deployment 설정)
 patches:
   - target:
       kind: Deployment
       name: dlk-be-alcohol-alcohol-deploy
-      namespace: dlk-be-alcohol
+      namespace: dlk-be-alcohol  # ✅ 특정 네임스페이스 지정
     path: patches/alcohol-patch.yaml
 
   - target:
       kind: Deployment
       name: dlk-be-alcohol-highball-deploy
-      namespace: dlk-be-alcohol
+      namespace: dlk-be-alcohol  # ✅ 특정 네임스페이스 지정
     path: patches/highball-patch.yaml
 
   - target:
       kind: Deployment
       name: dlk-be-alcohol-review-deploy
-      namespace: dlk-be-alcohol
+      namespace: dlk-be-alcohol  # ✅ 특정 네임스페이스 지정
     path: patches/review-patch.yaml
 
   - target:
       kind: Deployment
       name: dlk-be-auth-auth-deploy
-      namespace: dlk-be-auth
+      namespace: dlk-be-auth  # ✅ 특정 네임스페이스 지정
     path: patches/auth-patch.yaml
 
   - target:
       kind: Deployment
       name: dlk-be-pairing-pairing-deploy
-      namespace: dlk-be-pairing
+      namespace: dlk-be-pairing  # ✅ 특정 네임스페이스 지정
     path: patches/pairing-patch.yaml
 
   - target:
       kind: Deployment
       name: dlk-fe-next-deploy
-      namespace: dlk-fe-next
+      namespace: dlk-fe-next  # ✅ 특정 네임스페이스 지정
     path: patches/next-patch.yaml
 
   - target:
       kind: Deployment
       name: dlk-gateway-gateway-deploy
-      namespace: dlk-gateway
+      namespace: dlk-gateway  # ✅ 특정 네임스페이스 지정
     path: patches/gateway-patch.yaml
 
-# 프라이빗 ECR 인증을 위한 시크릿 추가 (모든 네임스페이스에 적용)
-secretGenerator:
-  - name: ecr-secret
-    type: kubernetes.io/dockerconfigjson
-    literals:
-      - ".dockerconfigjson=$(aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com)"
-
-# ECR 시크릿을 모든 네임스페이스에 적용하도록 설정 (optional)
-namespaceSelectors:
-  matchNames:
-    - dlk-fe-next
-    - dlk-be-alcohol
-    - dlk-be-auth
-    - dlk-be-pairing
-    - dlk-gateway

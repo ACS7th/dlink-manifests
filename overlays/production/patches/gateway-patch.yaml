@@ -8,5 +8,5 @@ spec:
     spec:
       containers:
         - name: alcohol-container
-          image: 192.168.3.81/dlink/api-gateway:v2.0.13
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/api-gateway:v3.0.0
 

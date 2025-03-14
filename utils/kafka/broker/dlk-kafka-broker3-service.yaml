@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
-metadata:
+metadata: 
   name: dlk-kafka-broker3-service
   namespace: dlk-kafka
-spec:
+spec: 
   clusterIP: None
-  selector:
+  selector: 
     app: kafka-broker3
-  ports:
+  ports: 
     - name: kafka
-      port: 9094
-      targetPort: 9094
+      port: 9092
+      targetPort: 9092
       protocol: TCP
-
