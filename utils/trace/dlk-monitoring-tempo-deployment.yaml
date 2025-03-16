@@ -28,6 +28,4 @@ spec:
           configMap:
             name: tempo-config
         - name: tempo-data
-          persistentVolumeClaim:
-            claimName: tempo-data
-
+          emptyDir: {}
