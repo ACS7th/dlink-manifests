@@ -1,0 +1,42 @@
+crds:
+  create: false
+
+grafana:
+  service:
+    type: LoadBalancer
+    port: 80
+  persistence:
+    enabled: false
+
+prometheus:
+  service:
+    type: LoadBalancer
+  prometheusSpec:
+    remoteWriteDashboards: false
+    serverSideApply: true
+    retention: 12h
+
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ['namespace']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      receiver: 'slack-notifications'
+      routes:
+      - receiver: 'null'
+        matchers:
+          - alertname = "Watchdog"
+    receivers:
+      - name: 'slack-notifications'
+        slack_configs:
+          - send_resolved: true
+            channel: "#alerts"
+            api_url: "https://hooks.slack.com/services/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"
+            title: "🔥 Alert: {{ .CommonAnnotations.summary }}"
+            text: "{{ .CommonAnnotations.description }}"
+

@@ -8,7 +8,7 @@ grafana:
   persistence:
     enabled: true
     type: sts
-    storageClassName: openebs-hostpath
+    storageClassName: gp2
     accessModes:
       - ReadWriteOnce
     size: 20Gi
@@ -43,7 +43,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: openebs-hostpath
+          storageClassName: gp2
           accessModes:
             - ReadWriteOnce
           resources:

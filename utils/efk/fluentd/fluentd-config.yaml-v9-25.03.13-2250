@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: dlk-monitoring
+data:
+  fluent.conf: |
+    # 1) Fluentd 자체 로그 무시
+    <match fluent.**>
+      @type null
+    </match>
+
+    # 2) 컨테이너 로그 수집 (CRI 표준 형식)
+    <source>
+      @type tail
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      <parse>
+        @type cri
+      </parse>
+    </source>
+
+    # 3) 멀티라인 로그 병합
+    #    - ISO8601 형식: 예) 2025-03-13T11:59:16.114Z
+    <filter kubernetes.**>
+      @type concat
+      key log
+      # 로그가 "연도-월-일T시:분:초.밀리초Z" 로 시작하면 새로운 이벤트로 인식
+      multiline_start_regexp /^20\d{2}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/
+      # 일정 시간(flush_interval)이 지나면 아직 합쳐지지 않은 로그도 강제로 배출
+      flush_interval 5
+      separator "\n"
+    </filter>
+
+    # 4) Kubernetes 메타데이터 추가
+    <filter kubernetes.**>
+      @type kubernetes_metadata
+    </filter>
+
+    # 5) 로그 필드 정리
+    <filter kubernetes.**>
+      @type record_transformer
+      enable_ruby true
+      <record>
+        # 원본 로그에 timestamp 필드가 있으면 사용, 없으면 현재 시간을 사용
+        log_time ${record["timestamp"] || time.strftime('%Y-%m-%dT%H:%M:%S.%N%z')}
+        pod_name ${record["kubernetes"]["pod_name"]}
+        namespace_name ${record["kubernetes"]["namespace_name"]}
+        container_name ${record["kubernetes"]["container_name"]}
+        container_image ${record["kubernetes"]["container_image"]}
+        node_name ${record["kubernetes"]["node_name"]}
+      </record>
+      remove_keys timestamp
+    </filter>
+
+    # 6) 특정 네임스페이스(kube-system, amazon-network-flow-monitor 등) 로그 무시
+    <match kubernetes.var.log.**kube-system**>
+      @type null
+    </match>
+    <match kubernetes.var.log.**amazon-network-flow-monitor**>
+      @type null
+    </match>
+
+    # 7) Elasticsearch로 전송
+    <match kubernetes.**>
+      @type elasticsearch
+      logstash_format true
+      logstash_prefix "test-log"
+      host "#{ENV['FLUENT_ELASTICSEARCH_HOST']}"
+      port "#{ENV['FLUENT_ELASTICSEARCH_PORT']}"
+      scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
+      user "#{ENV['FLUENT_ELASTICSEARCH_USER'] || ''}"
+      password "#{ENV['FLUENT_ELASTICSEARCH_PASSWORD'] || ''}"
+      reload_connections true
+      log_es_400_reason true
+
+      <buffer>
+        @type file
+        path /var/log/fluentd-buffers/elasticsearch
+        flush_interval 5s
+        retry_forever true
+      </buffer>
+    </match>
+
