@@ -25,12 +25,12 @@ spec:
             - configMapRef:
                 name: dlk-gateway-config
           resources:
-            requests:
-              cpu: "200m"
-              memory: "1Gi"
             limits:
               cpu: "1000m"
               memory: "1.5Gi"        
+            requests:
+              cpu: "200m"
+              memory: "1Gi"
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/api-gateway:v2.0.13 #192.168.3.81/dlink/api-gateway:v2.0.1
           name: alcohol-container
           volumeMounts:
