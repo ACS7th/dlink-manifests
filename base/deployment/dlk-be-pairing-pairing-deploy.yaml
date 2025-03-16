@@ -28,13 +28,6 @@ spec:
 #                name: dlk-be-pairing-secrets
             - configMapRef:
                 name: dlk-be-pairing-config
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "512Mi"
-            limits:
-              cpu: "1500m"
-              memory: "1Gi"
           volumeMounts:
             - name: secrets-store-inline
               mountPath: "/mnt/secrets"

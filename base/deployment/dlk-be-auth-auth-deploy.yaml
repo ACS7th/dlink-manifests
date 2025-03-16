@@ -27,13 +27,6 @@ spec:
 #                name: aws-secrets #dlk-be-auth-secrets
             - configMapRef:
                 name: dlk-be-auth-config
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "512Mi"
-            limits:
-              cpu: "800m"
-              memory: "1Gi"
           volumeMounts:
             - name: secrets-store-inline
               mountPath: "/mnt/secrets"

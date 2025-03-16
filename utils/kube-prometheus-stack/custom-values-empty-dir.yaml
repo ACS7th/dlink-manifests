@@ -5,6 +5,10 @@ grafana:
   service:
     type: LoadBalancer
     port: 80
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:ap-northeast-2:084550838259:certificate/cde6b6e2-653d-4dff-82db-6b92fc1c7405"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+      service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
   persistence:
     enabled: false
 

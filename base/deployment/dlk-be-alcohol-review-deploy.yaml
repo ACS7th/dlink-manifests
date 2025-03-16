@@ -27,13 +27,6 @@ spec:
                 name: dlk-be-alcohol-config
           image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/review-service:v2.0.5 #192.168.3.81/dlink/review-service:v2.0.0
           name: spring-container
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "320Mi"
-            limits:
-              cpu: "1100m"
-              memory: "512Mi"
           volumeMounts:
             - name: secrets-store-inline
               mountPath: "/mnt/secrets"
