@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dlk-fe-next-ingress 
-  namespace: dlk-fe-next 
+  name: dlk-fe-next-ingress
+  namespace: dlk-fe-next
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -12,13 +12,24 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-  - host: eks.dlink.my 
+  - host: eks.dlink.my
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: dlk-fe-next-svc 
+            name: dlk-fe-next-svc
             port:
               number: 2100
+  - host: grafana.dlink.my
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dlk-monitoring-grafana
+            port:
+              number: 80
+

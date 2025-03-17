@@ -2,7 +2,7 @@ apiVersion: v1
 data:
   AUTH_SERVICE_URI: http://dlk-be-auth-svc.dlk-be-auth.svc.cluster.local:8083
   NEXT_URI: http://dlk-fe-next-svc.dlk-fe-next.svc.cluster.local:2100
-  NEXTAUTH_URL: http://dlink.asordk.synology.me
+  NEXTAUTH_URL: https://eks.dlink.my
   NODE_ENV: 'production #development'
   SPRING_PROFILES_ACTIVE: prod
   SPRING_URI: http://dlk-gateway-svc.dlk-gateway.svc.cluster.local:9999
