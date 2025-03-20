@@ -97,11 +97,11 @@ spec:
                 secretKeyRef:
                   name: aws-secrets
                   key: GOOGLE_APP_USERNAME
-            - name: GOOGLE_APP_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: aws-secrets
-                  key: GOOGLE_APP_PASSWORD
+#            - name: GOOGLE_APP_PASSWORD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: aws-secrets
+#                  key: GOOGLE_APP_PASSWORD
       volumes:
         - name: secrets-store-inline
           csi:
