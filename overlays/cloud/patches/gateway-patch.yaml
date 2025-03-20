@@ -11,4 +11,4 @@ spec:
         - name: dlk-gateway-ecr-secret
       containers:
         - name: alcohol-container
-          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/api-gateway:v3.0.2
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/api-gateway:v3.0.3
