@@ -58,6 +58,11 @@ spec:
                 secretKeyRef:
                   name: aws-secrets
                   key: SPRING_DATA_MONGODB_URI
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secrets
+                  key: SPRING_DATA_REDIS_PASSWORD
 #            - name: "AWS_ACCESS_KEY"
 #              value: "/mnt/secrets/AWS_ACCESS_KEY"
 #            - name: "AWS_SECRET_KEY"
