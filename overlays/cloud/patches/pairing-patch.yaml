@@ -11,4 +11,4 @@ spec:
         - name: dlk-be-pairing-ecr-secret
       containers:
         - name: spring-container
-          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/pairing-service:v3.0.5
+          image: 084550838259.dkr.ecr.ap-northeast-2.amazonaws.com/dlink/pairing-service:v3.0.3
