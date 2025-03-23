@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: pairing-service
-  name: dlk-be-pairing-pairing-service-deploy
+  name: dlk-be-pairing-pairing-deploy
   namespace: dlk-be-pairing
 spec:
   replicas: 1
